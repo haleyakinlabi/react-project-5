@@ -1,0 +1,66 @@
+1. Overview the component tree 
+-Overview the component architecture of this project. Note that there is no reference to redux in this 
+component tree. Redux is used to store state app-wide (globally), so that any component in the tree below 
+can read and/or write to it.
+
+            App.js
+                |
+ Header.js------|------MainDisplay.js
+                |               |
+           OptionDisplay.js     |
+                                |
+               Overview.js------|------Symbols.js
+                                |
+                            Weather.js
+------------------------------------------------------------------------------------------------------------
+2. Overview Data Flow
+note:
+    How data moves and relates to other parts of the application is often called “data flow”. Read through the 
+    steps below to see what the data flow will look like for this application.
+    (Even if you don’t understand how all of the data is moving now, this portion will be a good resource to 
+    review as you build out this application, as well as once it is finished.)
+
+-The Header Component does the following:
+    |Clears all global state related to countries (creates a clean slate to build on)
+    |Makes an API call to get a list of countries that match the user’s input
+    |Receives the response from the API, which is a list of potential countries that we may want to see 
+    details about
+    |Sets an app-wide state property with the list of countries (called “potentialCountries”), allowing 
+    any component app-wide to access this data, thanks to redux
+
+-The OptionDisplay component does the following:
+    |Reads the app-wide state (or “global” state) that is holding all of the potential countries
+    |Displays the list of all potential countries
+    |When a user clicks on one of those potential countries, OptionDisplay sets that single country on a 
+    global state property called “displayCountry”
+
+-The App.js component does the following:
+    |Is updated via redux with the new displayCountry state (it is now truthy)
+    |Since there is now displayCountry state (truthy), App.js changes to display the Main.js component,
+    not the Options.js component
+
+-The Main.js component does the following:
+    |By default, displays its child component “Overview”
+    |Provides 3 buttons to change the component being viewed
+        
+        If Overview.js is displayed, it does the following :
+            |Reads from global state concerning displayCountry
+            |Displays the displayCountry’s general information
+        
+        If Weather.js is displayed, it does the following :
+            |Reads from global state to get the latitude and longitude of the capital city of the 
+            displayCountry
+            |Makes an additional API call to another API to get the weather of those coordinates
+            |Displays the information of the current weather at the displayCountry’s capital
+
+        If Symbols.js is displayed, it does the following :
+            |Reads from global state concerning displayCountry
+            |Displays the displayCountry’s national symbols
+
+-When the Header component is updated, the entire process repeats
+-----------------------------------------------------------------------------------------------
+3. Install Packages
+-Use your terminal to cd into the starter code folder, and run npm i. This will see whatever dependencies are listed in the package.json file, download them from npm, and store that code in your node_modules folder.
+
+-Next, run npm start. You should see a bare-bones and non-functional version of the website appear in your browser. This is the starter code for this project that we will be building on.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,153 @@
+1. Create children components on MainDisplay
+Overview.js
+
+    import React from "react":
+
+    const Overview = () => {
+        return <div>Overview</div>:
+    },
+
+    export default Overview;
+----------------------------------------------------
+2. Update the MainDisplay
+MainDisplay.js
+
+    import React, { useState } from "react";
+    import Overview from "./Overview";
+    import Weather from ". /Weather";
+    import Symbols from ". /Symbols";
+
+    const MainDisolav = () => {
+        const [view, setView] = useState ("Overview") ;
+        return (
+            <div className="stack">
+                <div className="tab-select">
+                    <button onClick={() => setView( "Overview") }>Overview</button>
+                    <button onClick={() => setView ("Weather" ) }>
+                        Current Weather at Capitol
+                    </button>
+                    <button onClick={() => setView( "Symbols" )}>Symbols</button>
+                </div>
+                {view === "Overview" && <Overview />}
+                {view === "Weather" && <Weather />}
+                {view === "Symbols" && <Symbols />}
+            </div>
+        )
+    }
+
+    export default MainDisplay;
+-------------------------------------------------------------------------------
+3. Select the info to be displayed in Overview.js
+-----------------------------------------------------------------------------
+4. update Overview.js
+Overview.js
+
+18  if (i + 1 === arr. length) {
+19      return `${e}`;
+20  } else {
+21      return `${e}, `;
+22  }
+23  })
+
+----------------------------------------------------------------------------
+5. update Symbols.js
+Symbols.js
+
+    const Symbols = () => {
+        let currentDisplay = useSelector(selectDisplay);
+        return (
+            <div className="symbols">
+                <div className="stack">
+                    <h2>Flag of {currentDisplay.name.common}:</h2>
+                    {currentDisplay.flags?(
+                        <mg src={currentDisplay.flags.png}/>
+                    ) : (
+                        "(No Data Found)"
+                    )}
+                </div>
+                <div className="stack">
+                    <h2>Coat of Arms of {currentDisplay.name. common}: </h2>
+                    {currentDisplay.coatOfArms?(
+                        <mg src={currentDisplay.coatofArms.png}/>
+                    ) : ( 
+                        "(No Data Found)"
+                    )}   
+                </div>
+            </div>
+        )
+    }
+-----------------------------------------------------------------------
+6. Sign up for the Weather API 
+-Navigate to RapidAPI.com
+----------------------------------------------------------------------
+7. Use Weather API connection 
+Weather.js
+    import axis from "axios":
+    import React, { useEffect, useState } from "react";
+    import { useSelector } from "react-redux":
+    import { selectDisplay } from "../redux/slices/displayCountrySlice";
+
+    const Weather = () => {
+        const [weather, setWeather] = useState()
+        let display = useSelector(selectDisplay);
+        let latitude = display. capitalInfo. lating[0];
+        let longitude = display. capitalInfo. lating[1]:
+
+        useEffect(() => {
+            const options = {
+                method: "GET",
+                url: "https://weatherapi-com.p.rapidapi.com/current.ison",
+                params: { g: `${latitude}, ${longitude}` },
+                headers: {
+                    "X-RapidAPI-Key":
+                        "79ccfaed23msh682b7ea8536df9ap1dae16jsn6b9c2dd76294",
+                    "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"
+                }
+            }
+
+            axios
+                .request (options)
+                .then (function (response) {
+                    console. log (response.data) ;
+                    setWeather (response.data) :
+                })
+                .catch(function (error) {
+                    console.error(error)
+                });
+            }, []);
+
+            return (
+                <div>
+                    <table className-"overview-table">
+                        <tr>
+                            <td>Conditions: </td>
+                            <td>{weather?.current?.condition?-text]</td>
+                        </tr>
+                        <tr>
+                            <td>Temperature: </td>
+                            <td>{weather?.current.temp_ f} degrees Fahrenheit</td>
+                        </tr>
+                        <tr>
+                            <td>Feels Like: </td>
+                            <td>{weather?.current?.feelslike_f} degrees Fahrenheit</td>
+                        </tr>
+                        <tr>
+                            <td>Humidity: </td>
+                            <td>‹weather?. current?.humidity]%</td>
+                        </tr>
+                        <tr>
+                            <td>Wind Soeed: </tds
+                            <td>
+                                {weather?. current?.wind_mph} mph {" "}
+                                {weather?. current? wind dir}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            );
+        };
+    export default Weather;
+
+
+
+

@@ -1,0 +1,73 @@
+1. Create the displayCountrySlice file
+slices
+    displayCountrySlice.js
+------------------------------------------
+2. Configure displayCountrySlice (part1)
+displayCountrySlice.js
+
+    import { createSlice } from "@reduxjs/toolkit";
+    import initialCountry from "../../assets/initialCountry";
+
+    export cost displayCountrySlice = createSlice({
+        name: "displayCountry",
+        initialState:{
+            value: initialCountry,
+        },
+        reducers: {
+            setDisplayCountry: (state, action) => {
+                state.value = action.payload;
+            },
+            deleteDisplayCountry: (state) => {
+                state.value = null;
+            },
+        },
+    });
+---------------------------------------------------------------
+3. Configure displayCountrySlice (part2)
+displayCountrySlice.js
+
+    import { createSlice } from "@reduxjs/toolkit";
+    import initialCountry from "../../assets/initialCountry";
+
+    export cost displayCountrySlice = createSlice({
+        name: "displayCountry"'
+        initialState: {
+            value: initialCountry,
+        },
+        reducers: {
+            setDisplayCountry: (state, action) => {
+                state.value = action.payload;
+            },
+            deleteDisplayCountry: (state) => {
+                state.value = null;
+            }, 
+        },
+    });
+
+    export const { setDisplayCountry, deleteDisplayCountry } =
+        displayCountrySlice.actions;
+
+    export const selectDisplay = (state) => state.displayedCountry. value;
+
+    export default displayCountrySlice.reducer;
+------------------------------------------------------------------------------
+4. import displayCountrySlice into the store 
+store.js
+
+    import { configureStore } from "@reduxjs/toolkit':
+    import potentialCountriesReducer from "../redux/slices/potentialCountriesSlice";
+    import displayedCountryReducer from "../redux/slices/displayCountrySlice";
+
+    export default configureStore({
+        reducer: {
+            potentialCountries: potentialCountriesReducer,
+            displayedCountry: displayedCountryReducer,
+        },
+    });
+-------------------------------------------------------------------------
+5. check the Connection
+App.js
+
+12  let currentDisplay=-useSelector(selectDisplay);
+13  console. log ("DISPLAY", currentDisplay);
+-------------------------------------------------------------------------

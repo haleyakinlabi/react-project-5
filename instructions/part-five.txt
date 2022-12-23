@@ -1,0 +1,58 @@
+1. update the OptionDisplay component 
+OptionDisplay.js
+    import React from "react":
+    import { useDispatch, useSelector } from "react-redux";
+    import { setDisplayCountry } from "../redux/slices/displayCountrySlice";
+    import { selectPotentials } from "../redux/slices/potentialCountriesSlice";
+
+    const OptionDisplay = () => {
+        let currentPotentials = useSelector (selectPotentials) ;
+        console. log (currentPotentials);
+        const dispatch = useDispatch();
+        return (
+            <div className="stack">
+                {currentPotentials.map( (e, i) => {
+                    return ( 
+                        <h2
+                            key={e.name.official}
+                            className="country-option"
+                            onClick={() => {
+                                dispatch (setDisplayCountry(currentPotentials[il));
+                            }}
+                        >
+                            {e.name, common}
+                        </h2>
+                    );
+                })}
+            </div>
+        )
+    };
+
+
+    export default OptionDisplay
+------------------------------------------------------------------------------------------------
+2. update Header component 
+Header.js
+
+9   import {
+10  selectDisplay,
+11  deleteDisplayCountry,
+12  } from "../redux/slices/displayCountrySlice";
+
+17  let currentDisplay•=-useSelector(selectDisplay);
+
+26  <h3 className="home-country">
+27      {currentDisplay-&&-currentDisplay.name.common}
+28  </h3>
+
+42  dispatch(deleteDisplayCountry());
+---------------------------------------------------------------------------
+3. set up App.js to switch views 
+App.js
+
+17  {currentDisplay-?MainDisplay-/> : <OptionDisplay/>}
+--------------------------------------------------------------------------------
+
+
+
+
